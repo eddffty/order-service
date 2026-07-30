@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Покупатели</title>
+</head>
+<body>
+<a href="/customers/new">Добавить покупателя</a>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Телефон</th>
+        <th>Email</th>
+        <th></th>
+    </tr>
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.id}"></td>
+        <td th:text="${customer.name}"></td>
+        <td th:text="${customer.phone}"></td>
+        <td th:text="${customer.email}"></td>
+        <td>
+            <a th:href="@{/customers/{id}/edit(id=${customer.id})}">Изменить</a>
+            <form th:action="@{/customers/{id}/delete(id=${customer.id})}" method="post">
+                <button type="submit">Удалить</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
