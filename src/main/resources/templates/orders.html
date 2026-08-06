@@ -5,6 +5,13 @@
   <title>Заказы</title>
 </head>
 <body>
+<nav>
+  <a th:href="@{/products/page}">Товары</a> |
+  <a th:href="@{/customers/page}">Покупатели</a> |
+  <a th:href="@{/orders/page}">Заказы</a> |
+  <a th:href="@{/order-items/page}">Позиции заказов</a>
+</nav>
+<hr>
 <a href="/orders/new">Добавить заказ</a>
 <table border="1">
   <tr>

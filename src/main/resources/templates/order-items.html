@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Позиции заказов</title>
+</head>
+<body>
+<nav>
+  <a th:href="@{/products/page}">Товары</a> |
+  <a th:href="@{/customers/page}">Покупатели</a> |
+  <a th:href="@{/orders/page}">Заказы</a> |
+  <a th:href="@{/order-items/page}">Позиции заказов</a>
+</nav>
+<hr>
+<a href="/order-items/new">Добавить позицию</a>
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Заказ</th>
+    <th>Товар</th>
+    <th>Кол-во</th>
+    <th>Цена за ед.</th>
+    <th></th>
+  </tr>
+  <tr th:each="item : ${orderItems}">
+    <td th:text="${item.id}"></td>
+    <td th:text="${item.order.id}"></td>
+    <td th:text="${item.product.name}"></td>
+    <td th:text="${item.quantity}"></td>
+    <td th:text="${item.priceAtOrder}"></td>
+    <td>
+      <form th:action="@{/order-items/{id}/delete(id=${item.id})}" method="post">
+        <button type="submit">Удалить</button>
+      </form>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

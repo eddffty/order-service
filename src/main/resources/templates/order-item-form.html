@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Позиция заказа</title>
+</head>
+<body>
+<form th:action="@{/order-items}" th:object="${itemRequest}" method="post">
+  <label>Заказ:
+    <select th:field="*{orderId}">
+      <option th:each="order : ${orders}"
+              th:value="${order.id}"
+              th:text="${'Заказ #' + order.id + ' (' + order.customer.name + ')'}">
+      </option>
+    </select>
+  </label><br>
+  <label>Товар:
+    <select th:field="*{productId}">
+      <option th:each="product : ${products}"
+              th:value="${product.id}"
+              th:text="${product.name}">
+      </option>
+    </select>
+  </label><br>
+  <label>Количество: <input type="number" th:field="*{quantity}"></label><br>
+  <button type="submit">Сохранить</button>
+</form>
+</body>
+</html>
