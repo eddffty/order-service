@@ -1,8 +1,6 @@
 package com.example.order_service.controller;
 
-import com.example.order_service.dto.OrderCreateRequest;
 import com.example.order_service.dto.OrderItemCreateRequest;
-import com.example.order_service.model.Order;
 import com.example.order_service.model.OrderItem;
 import com.example.order_service.service.OrderItemService;
 import com.example.order_service.service.OrderService;
@@ -14,10 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class OrderItemWebController {
@@ -51,7 +46,6 @@ public class OrderItemWebController {
         orderItemService.save(itemRequest);
         return "redirect:/order-items/page";
     }
-
 
 
     @PostMapping("/order-items/{id}/delete")

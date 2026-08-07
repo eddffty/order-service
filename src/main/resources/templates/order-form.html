@@ -15,7 +15,14 @@
       </option>
     </select>
   </label><br>
-  <label>Статус: <input type="text" th:field="*{status}"></label><br>
+  <label>Статус:
+    <select th:field="*{status}">
+      <option value="NEW">Новый</option>
+      <option value="IN_PROGRESS">В процессе</option>
+      <option value="COMPLETED">Выполнен</option>
+      <option value="CANCELLED">Отменён</option>
+    </select>
+  </label><br>
   <button type="submit">Сохранить</button>
 </form>
 </body>

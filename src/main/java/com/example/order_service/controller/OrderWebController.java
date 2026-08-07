@@ -2,6 +2,7 @@ package com.example.order_service.controller;
 
 import com.example.order_service.dto.OrderCreateRequest;
 import com.example.order_service.model.Order;
+import com.example.order_service.model.OrderStatus;
 import com.example.order_service.service.CustomerService;
 import com.example.order_service.service.OrderService;
 import org.springframework.stereotype.Controller;
@@ -62,7 +63,8 @@ public class OrderWebController {
         OrderCreateRequest orderRequest = new OrderCreateRequest();
         orderRequest.setId(order.getId());
         orderRequest.setCustomerId(order.getCustomer().getId());
-        orderRequest.setStatus(order.getStatus());
+        String status = String.valueOf(order.getStatus());
+        orderRequest.setStatus(status);
         model.addAttribute("orderRequest", orderRequest);
         model.addAttribute("customers", customerService.findAll());
         return "order-form";

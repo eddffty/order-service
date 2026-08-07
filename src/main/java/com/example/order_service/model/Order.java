@@ -11,7 +11,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Customer customer, String status, LocalDateTime createdAt) {
+    public Order(Customer customer, OrderStatus status, LocalDateTime createdAt) {
         this.customer = customer;
         this.status = status;
         this.createdAt = createdAt;
@@ -24,7 +24,8 @@ public class Order {
     @ManyToOne
     private Customer customer;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     private LocalDateTime createdAt;
 
@@ -44,11 +45,11 @@ public class Order {
         this.customer = customer;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 

@@ -5,6 +5,7 @@ import com.example.order_service.dto.OrderUpdateRequest;
 import com.example.order_service.model.Customer;
 import com.example.order_service.model.Order;
 import com.example.order_service.model.OrderItem;
+import com.example.order_service.model.OrderStatus;
 import com.example.order_service.repository.OrderItemRepository;
 import com.example.order_service.repository.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,8 @@ public class OrderService {
 
     public void save (OrderCreateRequest request) {
         Customer customer = customerService.findById(request.getCustomerId());
-        Order order = new Order (customer, request.getStatus(), LocalDateTime.now());
+        OrderStatus status = OrderStatus.valueOf(request.getStatus());
+        Order order = new Order (customer, status, LocalDateTime.now());
         orderRepository.save(order);
     }
 
@@ -49,8 +51,9 @@ public class OrderService {
     }
 
     public Order updateStatus(Integer id, OrderUpdateRequest request) {
-        Order order = findById(id); // переиспользуем уже готовый метод
-        order.setStatus(request.getStatus());
+        Order order = findById(id);
+        OrderStatus status = OrderStatus.valueOf(request.getStatus());
+        order.setStatus(status);
         return orderRepository.save(order);
     }
 
@@ -71,8 +74,9 @@ public class OrderService {
     public Order updateFromRequest(Integer id, OrderCreateRequest request) {
         Order order = findById(id);
         Customer customer = customerService.findById(request.getCustomerId());
+        OrderStatus status = OrderStatus.valueOf(request.getStatus());
         order.setCustomer(customer);
-        order.setStatus(request.getStatus());
+        order.setStatus(status);
         return orderRepository.save(order);
     }
 }
