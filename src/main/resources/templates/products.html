@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Товары</title>
@@ -28,9 +28,11 @@
         <td th:text="${product.stockQty}"></td>
         <td>
             <a th:href="@{/products/{id}/edit(id=${product.id})}">Изменить</a>
-            <form th:action="@{/products/{id}/delete(id=${product.id})}" method="post">
-                <button type="submit">Удалить</button>
-            </form>
+            <div sec:authorize="hasRole('ADMIN')">
+                <form th:action="@{/products/{id}/delete(id=${product.id})}" method="post">
+                    <button type="submit">Удалить</button>
+                </form>
+            </div>
         </td>
     </tr>
 </table>
