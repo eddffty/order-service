@@ -1,5 +1,8 @@
 package com.example.order_service.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,10 +27,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "Название товара не должно быть пустым")
     private String name;
 
+    @Positive(message = "Цена товара должна быть положительной")
     private BigDecimal price;
 
+
+    @PositiveOrZero(message = "Остаток не может быть отрицательным")
     private Integer stockQty;
 
     public Integer getId() {

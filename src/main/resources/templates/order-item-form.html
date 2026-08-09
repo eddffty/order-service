@@ -13,6 +13,7 @@
               th:text="${'Заказ #' + order.id + ' (' + order.customer.name + ')'}">
       </option>
     </select>
+    <p th:if="${#fields.hasErrors('orderId')}" th:errors="*{orderId}" style="color: red;"></p>
   </label><br>
   <label>Товар:
     <select th:field="*{productId}">
@@ -21,8 +22,11 @@
               th:text="${product.name}">
       </option>
     </select>
+    <p th:if="${#fields.hasErrors('productId')}" th:errors="*{productId}" style="color: red;"></p>
   </label><br>
-  <label>Количество: <input type="number" th:field="*{quantity}"></label><br>
+  <label>Количество: <input type="number" th:field="*{quantity}"></label>
+  <p th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" style="color: red;"></p>
+  <br>
   <button type="submit">Сохранить</button>
 </form>
 </body>

@@ -7,9 +7,15 @@
 <body>
 <form th:action="@{/products}" th:object="${product}" method="post">
   <input type="hidden" th:field="*{id}">
-  <label>Название: <input type="text" th:field="*{name}"></label><br>
-  <label>Цена: <input type="text" th:field="*{price}"></label><br>
-  <label>Остаток: <input type="text" th:field="*{stockQty}"></label><br>
+  <label>Название: <input type="text" th:field="*{name}"></label>
+  <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></p>
+  <br>
+  <label>Цена: <input type="text" th:field="*{price}"></label>
+  <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red;"></p>
+  <br>
+  <label>Остаток: <input type="text" th:field="*{stockQty}"></label>
+  <p th:if="${#fields.hasErrors('stockQty')}" th:errors="*{stockQty}" style="color: red;"></p>
+  <br>
   <button type="submit">Сохранить</button>
 </form>
 </body>

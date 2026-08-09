@@ -5,8 +5,10 @@ import com.example.order_service.model.Order;
 import com.example.order_service.model.OrderStatus;
 import com.example.order_service.service.CustomerService;
 import com.example.order_service.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +50,11 @@ public class OrderWebController {
 
 
     @PostMapping("/orders")
-    public String addOrder(@ModelAttribute OrderCreateRequest orderRequest) {
+    public String addOrder(@Valid @ModelAttribute OrderCreateRequest orderRequest, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("customers", customerService.findAll());
+            return "order-form";
+        }
         if (orderRequest.getId() == null) {
             orderService.save(orderRequest);
         } else {

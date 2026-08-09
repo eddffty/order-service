@@ -7,9 +7,15 @@
 <body>
 <form th:action="@{/customers}" th:object="${customer}" method="post">
   <input type="hidden" th:field="*{id}">
-  <label>Имя: <input type="text" th:field="*{name}"></label><br>
-  <label>Телефон: <input type="text" th:field="*{phone}"></label><br>
-  <label>Email: <input type="text" th:field="*{email}"></label><br>
+  <label>Имя: <input type="text" th:field="*{name}"></label>
+  <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></p>
+  <br>
+  <label>Телефон: <input type="text" th:field="*{phone}"></label>
+  <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red;"></p>
+  <br>
+  <label>Email: <input type="text" th:field="*{email}"></label>
+  <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></p>
+  <br>
   <button type="submit">Сохранить</button>
 </form>
 </body>

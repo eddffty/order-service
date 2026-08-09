@@ -1,8 +1,10 @@
 package com.example.order_service.controller;
 import com.example.order_service.model.Customer;
 import com.example.order_service.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +38,10 @@ public class CustomerWebController {
     }
 
     @PostMapping("/customers")
-    public String addCustomer(@ModelAttribute Customer customer) {
+    public String addCustomer(@Valid @ModelAttribute Customer customer, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "customer-form";
+        }
         customerService.save(customer);
         return "redirect:/customers/page";
     }

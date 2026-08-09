@@ -9,12 +9,11 @@
   <input type="hidden" th:field="*{id}">
   <label>Покупатель:
     <select th:field="*{customerId}">
-      <option th:each="customer : ${customers}"
-              th:value="${customer.id}"
-              th:text="${customer.name}">
-      </option>
+      <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
     </select>
-  </label><br>
+  </label>
+  <p th:if="${#fields.hasErrors('customerId')}" th:errors="*{customerId}" style="color: red;"></p>
+  <br>
   <label>Статус:
     <select th:field="*{status}">
       <option value="NEW">Новый</option>
@@ -22,7 +21,9 @@
       <option value="COMPLETED">Выполнен</option>
       <option value="CANCELLED">Отменён</option>
     </select>
-  </label><br>
+  </label>
+  <p th:if="${#fields.hasErrors('status')}" th:errors="*{status}" style="color: red;"></p>
+  <br>
   <button type="submit">Сохранить</button>
 </form>
 </body>

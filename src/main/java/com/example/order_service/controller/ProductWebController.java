@@ -2,8 +2,10 @@ package com.example.order_service.controller;
 
 import com.example.order_service.model.Product;
 import com.example.order_service.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,9 +38,13 @@ public class ProductWebController {
     }
 
     @PostMapping("/products")
-    public String addProduct(@ModelAttribute Product product) {
+    public String addProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "product-form";
+        }
         productService.save(product);
         return "redirect:/products/page";
+
     }
 
     @PostMapping("/products/{id}/delete")

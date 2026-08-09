@@ -1,9 +1,14 @@
 package com.example.order_service.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class OrderCreateRequest {
 
+    @NotNull(message = "ID не должен быть null")
     private Integer customerId;
 
+    @NotBlank(message = "Статус не должен быть пустой")
     private String status;
 
     private Integer id;
