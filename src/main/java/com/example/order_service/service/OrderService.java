@@ -8,6 +8,8 @@ import com.example.order_service.model.OrderItem;
 import com.example.order_service.model.OrderStatus;
 import com.example.order_service.repository.OrderItemRepository;
 import com.example.order_service.repository.OrderRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,6 +23,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final CustomerService customerService;
     private final OrderItemRepository orderItemRepository;
+    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
 
     public OrderService(OrderRepository orderRepository, CustomerService customerService, OrderItemRepository orderItemRepository) {
         this.orderRepository = orderRepository;
@@ -36,14 +39,19 @@ public class OrderService {
         Optional<Order> result = orderRepository.findById(id);
         if (result.isPresent()){
             return result.get();
-        } else throw new RuntimeException("Заказ не найден");
+        } else {
+            log.error("Заказ с id={} не найден", id);
+            throw new RuntimeException("Заказ не найден");
+        }
     }
 
     public void save (OrderCreateRequest request) {
+        log.info("Создание заказа для покупателя id={}", request.getCustomerId());
         Customer customer = customerService.findById(request.getCustomerId());
         OrderStatus status = OrderStatus.valueOf(request.getStatus());
         Order order = new Order (customer, status, LocalDateTime.now());
         orderRepository.save(order);
+        log.info("Заказ успешно создан: id={}", order.getId());
     }
 
     public Order saveReadyOrder(Order order) {
@@ -58,7 +66,9 @@ public class OrderService {
     }
 
     public void deleteById (Integer id){
+        log.warn("Собираюсь удалить заказ с id={}", id);
         orderRepository.deleteById(id);
+        log.info("Заказ id={} успешно удален", id);
     }
 
     public BigDecimal calculateTotalAmount(Integer orderId) {
