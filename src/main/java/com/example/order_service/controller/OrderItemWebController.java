@@ -6,13 +6,13 @@ import com.example.order_service.service.OrderItemService;
 import com.example.order_service.service.OrderService;
 import com.example.order_service.service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,9 +29,10 @@ public class OrderItemWebController {
     }
 
     @GetMapping("/order-items/page")
-    public String listPage(Model model) {
-        List<OrderItem> orderItems = orderItemService.findAll();
-        model.addAttribute("orderItems", orderItems);
+    public String listPage(@RequestParam(defaultValue = "0") int page, Model model) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<OrderItem> orderItemPage = orderItemService.findAll(pageable);
+        model.addAttribute("orderItemPage", orderItemPage);
         return "order-items";
     }
 

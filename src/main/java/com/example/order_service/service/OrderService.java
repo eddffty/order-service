@@ -2,14 +2,13 @@ package com.example.order_service.service;
 
 import com.example.order_service.dto.OrderCreateRequest;
 import com.example.order_service.dto.OrderUpdateRequest;
-import com.example.order_service.model.Customer;
-import com.example.order_service.model.Order;
-import com.example.order_service.model.OrderItem;
-import com.example.order_service.model.OrderStatus;
+import com.example.order_service.model.*;
 import com.example.order_service.repository.OrderItemRepository;
 import com.example.order_service.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -33,6 +32,10 @@ public class OrderService {
 
     public List<Order> findAll () {
         return orderRepository.findAll();
+    }
+
+    public Page<Order> findAll(Pageable pageable) {
+        return orderRepository.findAll(pageable);
     }
 
     public Order findById (Integer id) {

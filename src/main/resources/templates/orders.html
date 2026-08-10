@@ -21,7 +21,7 @@
     <th>Сумма</th>
     <th></th>
   </tr>
-  <tr th:each="order : ${orders}">
+  <tr th:each="order : ${orderPage.content}">
     <td th:text="${order.id}"></td>
     <td th:text="${order.customer.name}"></td>
     <td th:text="${order.status}"></td>
@@ -37,5 +37,10 @@
     </td>
   </tr>
 </table>
+<div>
+  <a th:if="${orderPage.hasPrevious()}" th:href="@{/orders/page(page=${orderPage.number - 1})}">« Назад</a>
+  <span th:text="'Страница ' + (${orderPage.number} + 1) + ' из ' + ${orderPage.totalPages}"></span>
+  <a th:if="${orderPage.hasNext()}" th:href="@{/orders/page(page=${orderPage.number + 1})}">Вперёд »</a>
+</div>
 </body>
 </html>

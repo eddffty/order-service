@@ -21,7 +21,7 @@
         <th>Остаток</th>
         <th></th>
     </tr>
-    <tr th:each="product : ${products}">
+    <tr th:each="product : ${productPage.content}">
         <td th:text="${product.id}"></td>
         <td th:text="${product.name}"></td>
         <td th:text="${product.price}"></td>
@@ -36,5 +36,10 @@
         </td>
     </tr>
 </table>
+<div>
+    <a th:if="${productPage.hasPrevious()}" th:href="@{/products/page(page=${productPage.number - 1})}">« Назад</a>
+    <span th:text="'Страница ' + (${productPage.number} + 1) + ' из ' + ${productPage.totalPages}"></span>
+    <a th:if="${productPage.hasNext()}" th:href="@{/products/page(page=${productPage.number + 1})}">Вперёд »</a>
+</div>
 </body>
 </html>

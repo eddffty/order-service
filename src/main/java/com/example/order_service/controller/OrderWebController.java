@@ -6,13 +6,13 @@ import com.example.order_service.model.OrderStatus;
 import com.example.order_service.service.CustomerService;
 import com.example.order_service.service.OrderService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -30,13 +30,14 @@ public class OrderWebController {
     }
 
     @GetMapping("/orders/page")
-    public String listPage(Model model) {
-        List<Order> orders = orderService.findAll();
+    public String listPage(@RequestParam(defaultValue = "0") int page, Model model) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Order> orderPage = orderService.findAll(pageable);
         Map<Integer, BigDecimal> totals = new HashMap<>();
-        for (Order order : orders) {
+        for (Order order : orderPage) {
             totals.put(order.getId(), orderService.calculateTotalAmount(order.getId()));
         }
-        model.addAttribute("orders", orders);
+        model.addAttribute("orderPage", orderPage);
         model.addAttribute("totals", totals);
         return "orders";
     }

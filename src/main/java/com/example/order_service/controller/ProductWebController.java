@@ -3,13 +3,13 @@ package com.example.order_service.controller;
 import com.example.order_service.model.Product;
 import com.example.order_service.service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ProductWebController {
@@ -20,8 +20,10 @@ public class ProductWebController {
     }
 
     @GetMapping("/products/page")
-    public String listPage(Model model) {
-        model.addAttribute("products", productService.findAll());
+    public String listPage(@RequestParam(defaultValue = "0") int page, Model model) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Product> productPage = productService.findAll(pageable);
+        model.addAttribute("productPage", productPage);
         return "products";
     }
 

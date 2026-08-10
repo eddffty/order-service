@@ -22,7 +22,7 @@
     <th>Цена за ед.</th>
     <th></th>
   </tr>
-  <tr th:each="item : ${orderItems}">
+  <tr th:each="item : ${orderItemPage.content}">
     <td th:text="${item.id}"></td>
     <td th:text="${item.order.id}"></td>
     <td th:text="${item.product.name}"></td>
@@ -37,5 +37,10 @@
     </td>
   </tr>
 </table>
+<div>
+  <a th:if="${orderItemPage.hasPrevious()}" th:href="@{/order-items/page(page=${orderItemPage.number - 1})}">« Назад</a>
+  <span th:text="'Страница ' + (${orderItemPage.number} + 1) + ' из ' + ${orderItemPage.totalPages}"></span>
+  <a th:if="${orderItemPage.hasNext()}" th:href="@{/order-items/page(page=${orderItemPage.number + 1})}">Вперёд »</a>
+</div>
 </body>
 </html>

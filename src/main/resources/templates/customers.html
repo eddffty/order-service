@@ -21,7 +21,7 @@
         <th>Email</th>
         <th></th>
     </tr>
-    <tr th:each="customer : ${customers}">
+    <tr th:each="customer : ${customerPage.content}">
         <td th:text="${customer.id}"></td>
         <td th:text="${customer.name}"></td>
         <td th:text="${customer.phone}"></td>
@@ -36,5 +36,10 @@
         </td>
     </tr>
 </table>
+<div>
+    <a th:if="${customerPage.hasPrevious()}" th:href="@{/customers/page(page=${customerPage.number - 1})}">« Назад</a>
+    <span th:text="'Страница ' + (${customerPage.number} + 1) + ' из ' + ${customerPage.totalPages}"></span>
+    <a th:if="${customerPage.hasNext()}" th:href="@{/customers/page(page=${customerPage.number + 1})}">Вперёд »</a>
+</div>
 </body>
 </html>

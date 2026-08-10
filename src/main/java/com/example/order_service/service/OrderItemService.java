@@ -8,6 +8,8 @@ import com.example.order_service.repository.OrderItemRepository;
 import com.example.order_service.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,10 @@ public class OrderItemService {
         return orderItemRepository.findAll();
     }
 
+    public Page<OrderItem> findAll(Pageable pageable) {
+        return orderItemRepository.findAll(pageable);
+    }
+
     public OrderItem findById(Integer id) {
         Optional<OrderItem> result = orderItemRepository.findById(id);
         if (result.isPresent()) {
@@ -47,7 +53,7 @@ public class OrderItemService {
         log.info("Добавление позиции в заказ с id={}", orderItemCreateRequest.getOrderId());
         Integer quantity = orderItemCreateRequest.getQuantity();
         Product product = productService.findById(orderItemCreateRequest.getProductId());
-        if (product.getStockQty() < quantity){
+        if (product.getStockQty() < quantity) {
             log.error("Позиции {} недостаточно на складе", product.getName());
             throw new RuntimeException("Недостаточно товара на складе");
         }
